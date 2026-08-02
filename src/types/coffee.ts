@@ -27,7 +27,7 @@ export interface NewDoseInput {
   size: Size;
   roast: Roast;
   species: Species;
-  species_custom?: string;
+  species_custom?: string | undefined;
   brewing_method: BrewingMethod;
 }
 
