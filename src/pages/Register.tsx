@@ -27,8 +27,8 @@ export default function Register() {
       toast.error("Informe um e-mail válido.");
       return;
     }
-    if (password.length < 6) {
-      toast.error("A senha precisa ter pelo menos 6 caracteres.");
+    if (password.length < 8) {
+      toast.error("A senha precisa ter pelo menos 8 caracteres.");
       return;
     }
 
@@ -44,10 +44,23 @@ export default function Register() {
     setIsSubmitting(false);
 
     if (error) {
+      const code = error.code ?? "";
+      const messages: Record<string, string> = {
+        user_already_exists: "Este e-mail já está cadastrado.",
+        email_exists: "Este e-mail já está cadastrado.",
+        weak_password:
+          "Esta senha é muito comum e foi encontrada em vazamentos. Escolha uma senha mais forte (misture letras, números e símbolos).",
+        email_address_invalid: "Este e-mail não é aceito. Use um endereço de e-mail real.",
+        signup_disabled: "Os cadastros estão temporariamente desativados.",
+        over_email_send_rate_limit:
+          "Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente novamente.",
+        validation_failed: "Verifique os dados informados e tente novamente.",
+      };
       toast.error(
-        error.message === "User already registered"
-          ? "Este e-mail já está cadastrado."
-          : error.message,
+        messages[code] ??
+          (error.message === "User already registered"
+            ? "Este e-mail já está cadastrado."
+            : error.message),
       );
       return;
     }
@@ -110,12 +123,16 @@ export default function Register() {
             id="password"
             type="password"
             autoComplete="new-password"
-            placeholder="Mínimo de 6 caracteres"
+            placeholder="Mínimo de 8 caracteres"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             maxLength={72}
             required
           />
+          <p className="text-xs text-muted-foreground">
+            Use pelo menos 8 caracteres e evite senhas comuns — senhas encontradas em vazamentos são
+            recusadas.
+          </p>
         </div>
 
         <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
