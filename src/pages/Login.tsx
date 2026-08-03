@@ -12,12 +12,44 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [needsConfirmation, setNeedsConfirmation] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+
+  function normalizedEmail() {
+    return email.trim().toLowerCase();
+  }
+
+  function isValidEmail(value: string) {
+    return !!value && value.length <= 255 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  async function handleResend() {
+    const cleanEmail = normalizedEmail();
+    if (!isValidEmail(cleanEmail)) {
+      toast.error("Informe um e-mail válido para reenviar a confirmação.");
+      return;
+    }
+
+    setIsResending(true);
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: cleanEmail,
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+    });
+    setIsResending(false);
+
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Enviamos um novo link de confirmação. Use sempre o mais recente.");
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const cleanEmail = email.trim().toLowerCase();
+    const cleanEmail = normalizedEmail();
 
-    if (!cleanEmail || cleanEmail.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+    if (!isValidEmail(cleanEmail)) {
       toast.error("Informe um e-mail válido.");
       return;
     }
@@ -34,6 +66,11 @@ export default function Login() {
     setIsSubmitting(false);
 
     if (error) {
+      if (error.message === "Email not confirmed") {
+        setNeedsConfirmation(true);
+        toast.error("Seu e-mail ainda não foi confirmado. Reenvie o link abaixo.");
+        return;
+      }
       toast.error(
         error.message === "Invalid login credentials"
           ? "E-mail ou senha incorretos."
@@ -42,6 +79,7 @@ export default function Login() {
       return;
     }
 
+    setNeedsConfirmation(false);
     toast.success("Bem-vindo de volta!");
     navigate({ to: "/dashboard", replace: true });
   }
@@ -91,6 +129,23 @@ export default function Login() {
         <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? "Entrando..." : "Entrar"}
         </Button>
+
+        {needsConfirmation && (
+          <div className="rounded-xl border border-border bg-muted/50 p-4 text-sm text-muted-foreground">
+            <p>
+              Não conseguiu confirmar pelo e-mail? Links antigos expiram — peça um novo agora.
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3 w-full"
+              onClick={handleResend}
+              disabled={isResending}
+            >
+              {isResending ? "Reenviando..." : "Reenviar e-mail de confirmação"}
+            </Button>
+          </div>
+        )}
       </form>
     </AuthShell>
   );
