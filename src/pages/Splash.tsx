@@ -21,12 +21,19 @@ export default function Splash() {
         </p>
 
         <Link
-          to="/"
+          to="/dashboard"
           className="group mt-10 inline-flex animate-fade-in items-center gap-2 rounded-full bg-card px-8 py-4 text-base font-medium text-card-foreground shadow-xl transition-transform duration-200 [animation-delay:0.3s] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-card focus-visible:ring-offset-2"
         >
           Começar Agora
           <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
         </Link>
+
+        <p className="mt-6 animate-fade-in text-sm text-primary-foreground/80 [animation-delay:0.4s]">
+          Já tem uma conta?{" "}
+          <Link to="/login" className="font-medium underline underline-offset-4">
+            Entrar
+          </Link>
+        </p>
       </section>
     </main>
   );
