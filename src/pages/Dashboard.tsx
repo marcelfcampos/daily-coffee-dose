@@ -7,12 +7,15 @@ import { LatestEntriesTable } from "@/components/dashboard/LatestEntriesTable";
 import { WeeklyChart } from "@/components/charts/WeeklyChart";
 import { NewDoseDialog } from "@/components/coffee/NewDoseDialog";
 import { useCoffeeEntries } from "@/hooks/useCoffeeEntries";
+import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Dashboard() {
   const { stats, isLoading } = useCoffeeEntries();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const displayName = (user?.user_metadata?.["full_name"] as string | undefined)?.trim();
 
   async function handleSignOut() {
     await queryClient.cancelQueries();
@@ -31,7 +34,9 @@ export default function Dashboard() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Controle de café</h1>
             <p className="text-sm text-muted-foreground">
-              Acompanhe seu consumo diário em poucos toques.
+              {user
+                ? `Olá${displayName ? `, ${displayName}` : ""} — ${user.email}`
+                : "Acompanhe seu consumo diário em poucos toques."}
             </p>
           </div>
         </div>
