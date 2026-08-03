@@ -123,12 +123,16 @@ export default function Register() {
             id="password"
             type="password"
             autoComplete="new-password"
-            placeholder="Mínimo de 6 caracteres"
+            placeholder="Mínimo de 8 caracteres"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             maxLength={72}
             required
           />
+          <p className="text-xs text-muted-foreground">
+            Use pelo menos 8 caracteres e evite senhas comuns — senhas encontradas em vazamentos são
+            recusadas.
+          </p>
         </div>
 
         <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
