@@ -129,6 +129,23 @@ export default function Login() {
         <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? "Entrando..." : "Entrar"}
         </Button>
+
+        {needsConfirmation && (
+          <div className="rounded-xl border border-border bg-muted/50 p-4 text-sm text-muted-foreground">
+            <p>
+              Não conseguiu confirmar pelo e-mail? Links antigos expiram — peça um novo agora.
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              className="mt-3 w-full"
+              onClick={handleResend}
+              disabled={isResending}
+            >
+              {isResending ? "Reenviando..." : "Reenviar e-mail de confirmação"}
+            </Button>
+          </div>
+        )}
       </form>
     </AuthShell>
   );
