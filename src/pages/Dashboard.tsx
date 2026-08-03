@@ -34,7 +34,9 @@ export default function Dashboard() {
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Controle de café</h1>
             <p className="text-sm text-muted-foreground">
-              Acompanhe seu consumo diário em poucos toques.
+              {user
+                ? `Olá${displayName ? `, ${displayName}` : ""} — ${user.email}`
+                : "Acompanhe seu consumo diário em poucos toques."}
             </p>
           </div>
         </div>
