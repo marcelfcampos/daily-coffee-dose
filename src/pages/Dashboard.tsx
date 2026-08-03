@@ -1,13 +1,25 @@
-import { Coffee, Plus } from "lucide-react";
+import { Coffee, LogOut, Plus } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { StatsCards } from "@/components/dashboard/StatsCards";
 import { LatestEntriesTable } from "@/components/dashboard/LatestEntriesTable";
 import { WeeklyChart } from "@/components/charts/WeeklyChart";
 import { NewDoseDialog } from "@/components/coffee/NewDoseDialog";
 import { useCoffeeEntries } from "@/hooks/useCoffeeEntries";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Dashboard() {
   const { stats, isLoading } = useCoffeeEntries();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/login", replace: true });
+  }
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6">
@@ -23,12 +35,18 @@ export default function Dashboard() {
             </p>
           </div>
         </div>
-        <NewDoseDialog>
-          <Button size="lg" className="gap-2">
-            <Plus className="size-4" />
-            Nova dose
+        <div className="flex items-center gap-2">
+          <NewDoseDialog>
+            <Button size="lg" className="gap-2">
+              <Plus className="size-4" />
+              Nova dose
+            </Button>
+          </NewDoseDialog>
+          <Button size="lg" variant="outline" className="gap-2" onClick={handleSignOut}>
+            <LogOut className="size-4" />
+            Sair
           </Button>
-        </NewDoseDialog>
+        </div>
       </header>
 
       <div className="mt-8 space-y-6">

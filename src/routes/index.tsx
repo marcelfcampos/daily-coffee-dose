@@ -1,24 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Dashboard from "@/pages/Dashboard";
+import Splash from "@/pages/Splash";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Controle de Ingestão de Café | Dashboard" },
+      { title: "Controle de Café | Monitore sua ingestão de cafeína" },
       {
         name: "description",
         content:
-          "Registre doses de café e acompanhe consumo diário, média semanal e histórico em um dashboard simples.",
+          "Monitore sua ingestão de cafeína e mantenha o equilíbrio da sua energia diária com o Controle de Café.",
       },
-      { property: "og:title", content: "Controle de Ingestão de Café" },
+      { property: "og:title", content: "Controle de Café" },
       {
         property: "og:description",
-        content:
-          "Dashboard com doses do dia, volume em ml, gráfico dos últimos 7 dias e últimos registros.",
+        content: "Monitore sua ingestão de cafeína e mantenha o equilíbrio da sua energia diária.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Dashboard,
+  component: Splash,
 });
