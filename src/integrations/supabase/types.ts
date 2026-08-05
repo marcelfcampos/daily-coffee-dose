@@ -14,60 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      coffee_entries: {
-        Row: {
-          brewing_method: Database["public"]["Enums"]["coffee_brewing_method"]
-          created_at: string
-          id: string
-          roast: Database["public"]["Enums"]["coffee_roast"]
-          size: Database["public"]["Enums"]["coffee_size"]
-          species: Database["public"]["Enums"]["coffee_species"]
-          species_custom: string | null
-          volume_ml: number
-        }
-        Insert: {
-          brewing_method: Database["public"]["Enums"]["coffee_brewing_method"]
-          created_at?: string
-          id?: string
-          roast: Database["public"]["Enums"]["coffee_roast"]
-          size: Database["public"]["Enums"]["coffee_size"]
-          species: Database["public"]["Enums"]["coffee_species"]
-          species_custom?: string | null
-          volume_ml: number
-        }
-        Update: {
-          brewing_method?: Database["public"]["Enums"]["coffee_brewing_method"]
-          created_at?: string
-          id?: string
-          roast?: Database["public"]["Enums"]["coffee_roast"]
-          size?: Database["public"]["Enums"]["coffee_size"]
-          species?: Database["public"]["Enums"]["coffee_species"]
-          species_custom?: string | null
-          volume_ml?: number
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string
-          full_name: string
-          id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          full_name?: string
-          id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          full_name?: string
-          id?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
@@ -76,19 +23,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      coffee_brewing_method:
-        | "coado"
-        | "moka"
-        | "prensa"
-        | "espresso"
-        | "aeropress"
-        | "v60"
-        | "chemex"
-        | "sifao"
-        | "turco"
-      coffee_roast: "light" | "medium" | "dark"
-      coffee_size: "small" | "medium" | "large"
-      coffee_species: "arabica" | "robusta" | "other"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -215,21 +150,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      coffee_brewing_method: [
-        "coado",
-        "moka",
-        "prensa",
-        "espresso",
-        "aeropress",
-        "v60",
-        "chemex",
-        "sifao",
-        "turco",
-      ],
-      coffee_roast: ["light", "medium", "dark"],
-      coffee_size: ["small", "medium", "large"],
-      coffee_species: ["arabica", "robusta", "other"],
-    },
+    Enums: {},
   },
 } as const
