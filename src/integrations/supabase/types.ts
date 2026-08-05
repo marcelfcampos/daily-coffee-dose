@@ -14,7 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      coffee_entries: {
+        Row: {
+          brewing_method: Database["public"]["Enums"]["brewing_method"]
+          created_at: string
+          id: string
+          roast: Database["public"]["Enums"]["coffee_roast"]
+          size: Database["public"]["Enums"]["coffee_size"]
+          species: Database["public"]["Enums"]["coffee_species"]
+          species_custom: string | null
+          updated_at: string
+          user_id: string
+          volume_ml: number
+        }
+        Insert: {
+          brewing_method: Database["public"]["Enums"]["brewing_method"]
+          created_at?: string
+          id?: string
+          roast: Database["public"]["Enums"]["coffee_roast"]
+          size: Database["public"]["Enums"]["coffee_size"]
+          species: Database["public"]["Enums"]["coffee_species"]
+          species_custom?: string | null
+          updated_at?: string
+          user_id?: string
+          volume_ml: number
+        }
+        Update: {
+          brewing_method?: Database["public"]["Enums"]["brewing_method"]
+          created_at?: string
+          id?: string
+          roast?: Database["public"]["Enums"]["coffee_roast"]
+          size?: Database["public"]["Enums"]["coffee_size"]
+          species?: Database["public"]["Enums"]["coffee_species"]
+          species_custom?: string | null
+          updated_at?: string
+          user_id?: string
+          volume_ml?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +85,19 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      brewing_method:
+        | "coado"
+        | "moka"
+        | "prensa"
+        | "espresso"
+        | "aeropress"
+        | "v60"
+        | "chemex"
+        | "sifao"
+        | "turco"
+      coffee_roast: "light" | "medium" | "dark"
+      coffee_size: "small" | "medium" | "large"
+      coffee_species: "arabica" | "robusta" | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +224,21 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      brewing_method: [
+        "coado",
+        "moka",
+        "prensa",
+        "espresso",
+        "aeropress",
+        "v60",
+        "chemex",
+        "sifao",
+        "turco",
+      ],
+      coffee_roast: ["light", "medium", "dark"],
+      coffee_size: ["small", "medium", "large"],
+      coffee_species: ["arabica", "robusta", "other"],
+    },
   },
 } as const
